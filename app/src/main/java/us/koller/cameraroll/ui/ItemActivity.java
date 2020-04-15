@@ -31,7 +31,9 @@ import androidx.appcompat.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.transition.Transition;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,10 +45,14 @@ import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.davemorrissey.labs.subscaleview.ImageViewState;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -68,13 +74,14 @@ import us.koller.cameraroll.data.models.Photo;
 import us.koller.cameraroll.data.provider.MediaProvider;
 import us.koller.cameraroll.data.Settings;
 import us.koller.cameraroll.data.models.Video;
+import us.koller.cameraroll.util.NetworkStateReceiver;
 import us.koller.cameraroll.util.ParallaxTransformer;
 import us.koller.cameraroll.util.animators.ColorFade;
 import us.koller.cameraroll.util.MediaType;
 import us.koller.cameraroll.util.SimpleTransitionListener;
 import us.koller.cameraroll.util.Util;
 
-public class ItemActivity extends ThemeableActivity {
+public class ItemActivity extends ThemeableActivity implements NetworkStateReceiver.NetworkStateReceiverListener{
 
     public static final int VIEW_IMAGE = 3;
     public static final int FILE_OP_DIALOG_REQUEST = 1;
@@ -105,7 +112,9 @@ public class ItemActivity extends ThemeableActivity {
     public boolean view_only;
 
     private boolean isReturning;
-
+    RelativeLayout rlmAdView;
+    private NetworkStateReceiver networkStateReceiver;
+    AdView mAdView;
     private final SharedElementCallback sharedElementCallback = new SharedElementCallback() {
         @Override
         @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -207,7 +216,7 @@ public class ItemActivity extends ThemeableActivity {
                             toolbar.getPaddingBottom());
 
                     bottomBar.setPadding(bottomBar.getPaddingStart() + insets.getSystemWindowInsetLeft(),
-                            bottomBar.getPaddingTop(),
+                          0,
                             bottomBar.getPaddingEnd() + insets.getSystemWindowInsetRight(),
                             bottomBar.getPaddingBottom() + insets.getSystemWindowInsetBottom());
 
@@ -271,6 +280,14 @@ public class ItemActivity extends ThemeableActivity {
             album = getIntent().getExtras().getParcelable(ALBUM);
             onAlbumLoaded(savedInstanceState);
         }
+
+
+
+        rlmAdView=findViewById(R.id.rlmAdView);
+
+        networkStateReceiver = new NetworkStateReceiver();
+        networkStateReceiver.addListener(this);
+        this.registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
     }
 
     private void onAlbumLoaded(Bundle savedInstanceState) {
@@ -1027,5 +1044,42 @@ public class ItemActivity extends ThemeableActivity {
                 }
             }
         };
+    }
+
+
+    @Override
+    public void networkAvailable() {
+        admobBanner();
+    }
+
+    @Override
+    public void networkUnavailable() {
+        rlmAdView.removeAllViews();
+    }
+
+    void admobBanner() {
+
+        mAdView = new AdView(this);
+        mAdView.setAdUnitId(getString(R.string.admob_banner_id));
+        rlmAdView.addView(mAdView);
+        rlmAdView.setVisibility(View.VISIBLE);
+        loadBanner();
+    }
+
+    private void loadBanner() {
+        AdRequest adRequest = new AdRequest.Builder().build();
+        AdSize adSize = getAdSize();
+        mAdView.setAdSize(adSize);
+        mAdView.loadAd(adRequest);
+    }
+
+    private AdSize getAdSize() {
+        Display display = getWindowManager().getDefaultDisplay();
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        display.getMetrics(outMetrics);
+        float widthPixels = outMetrics.widthPixels;
+        float density = outMetrics.density;
+        int adWidth = (int) (widthPixels / density);
+        return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(this, adWidth);
     }
 }

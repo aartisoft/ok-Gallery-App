@@ -12,9 +12,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+
 import androidx.annotation.RequiresApi;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.app.SharedElementCallback;
 import androidx.core.content.ContextCompat;
@@ -24,13 +30,18 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 import androidx.appcompat.widget.Toolbar;
+
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowInsets;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -54,10 +65,11 @@ import us.koller.cameraroll.data.Settings;
 import us.koller.cameraroll.ui.widget.FastScrollerRecyclerView;
 import us.koller.cameraroll.ui.widget.GridMarginDecoration;
 import us.koller.cameraroll.ui.widget.ParallaxImageView;
+import us.koller.cameraroll.util.NetworkStateReceiver;
 import us.koller.cameraroll.util.SortUtil;
 import us.koller.cameraroll.util.Util;
 
-public class MainActivity extends ThemeableActivity {
+public class MainActivity extends ThemeableActivity implements NetworkStateReceiver.NetworkStateReceiverListener {
 
     //public static final String ALBUMS = "ALBUMS";
     public static final String REFRESH_MEDIA = "REFRESH_MEDIA";
@@ -125,6 +137,12 @@ public class MainActivity extends ThemeableActivity {
 
     private boolean pick_photos;
 
+
+    RelativeLayout rlmAdView;
+    private NetworkStateReceiver networkStateReceiver;
+    AdView mAdView;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,6 +154,7 @@ public class MainActivity extends ThemeableActivity {
         final Settings settings = Settings.getInstance(this);
 
         hiddenFolders = settings.getHiddenFolders();
+
 
         //load media
         albums = MediaProvider.getAlbumsWithVirtualDirectories(this);
@@ -233,7 +252,7 @@ public class MainActivity extends ThemeableActivity {
                     return;
                 }
 
-                //hiding toolbar on scroll
+             /*   //hiding toolbar on scroll
                 float translationY = toolbar.getTranslationY() - dy;
                 if (-translationY > toolbar.getHeight()) {
                     translationY = -toolbar.getHeight();
@@ -261,7 +280,7 @@ public class MainActivity extends ThemeableActivity {
                     } else {
                         Util.setDarkStatusBarIcons(findViewById(R.id.root_view));
                     }
-                }
+                }*/
             }
         });
 
@@ -319,7 +338,7 @@ public class MainActivity extends ThemeableActivity {
                     toolbar.setLayoutParams(toolbarParams);
 
                     recyclerView.setPadding(recyclerView.getPaddingStart() + insets.getSystemWindowInsetLeft(),
-                            recyclerView.getPaddingTop() + insets.getSystemWindowInsetTop(),
+                            0,
                             recyclerView.getPaddingEnd() + insets.getSystemWindowInsetRight(),
                             recyclerView.getPaddingBottom() + insets.getSystemWindowInsetBottom());
 
@@ -370,6 +389,15 @@ public class MainActivity extends ThemeableActivity {
 
         //needed for transparent statusBar
         setSystemUiFlags();
+
+
+
+        rlmAdView=findViewById(R.id.rlmAdView);
+
+        networkStateReceiver = new NetworkStateReceiver();
+        networkStateReceiver.addListener(this);
+        this.registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
+
     }
 
     @Override
@@ -838,5 +866,41 @@ public class MainActivity extends ThemeableActivity {
         filter.addAction(RESORT);
         filter.addAction(DATA_CHANGED);
         return filter;
+    }
+
+    @Override
+    public void networkAvailable() {
+        admobBanner();
+    }
+
+    @Override
+    public void networkUnavailable() {
+       rlmAdView.removeAllViews();
+    }
+
+    void admobBanner() {
+
+        mAdView = new AdView(this);
+        mAdView.setAdUnitId(getString(R.string.admob_banner_id));
+        rlmAdView.addView(mAdView);
+        rlmAdView.setVisibility(View.VISIBLE);
+        loadBanner();
+    }
+
+    private void loadBanner() {
+        AdRequest adRequest = new AdRequest.Builder().build();
+        AdSize adSize = getAdSize();
+        mAdView.setAdSize(adSize);
+        mAdView.loadAd(adRequest);
+    }
+
+    private AdSize getAdSize() {
+        Display display = getWindowManager().getDefaultDisplay();
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        display.getMetrics(outMetrics);
+        float widthPixels = outMetrics.widthPixels;
+        float density = outMetrics.density;
+        int adWidth = (int) (widthPixels / density);
+        return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(this, adWidth);
     }
 }

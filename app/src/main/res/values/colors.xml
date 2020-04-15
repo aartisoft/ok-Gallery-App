@@ -9,7 +9,7 @@
     <!--accent color-->
     <color name="colorAccent">#69F0AE</color>
     <color name="colorAccentLight">#69F0AE</color>
-    <color name="colorAccent_text">#8A212121</color>
+    <color name="colorAccent_text">#000000</color>
 
     <!--light theme colors-->
     <color name="colorPrimary_light">#FAFAFA</color>

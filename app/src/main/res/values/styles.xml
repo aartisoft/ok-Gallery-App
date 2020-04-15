@@ -52,7 +52,7 @@
     </style>
 
     <!--AlbumActivity Theme-->
-    <style name="CameraRoll.Theme.Translucent.Album" parent="CameraRoll.Theme.Translucent" />
+    <style name="CameraRoll.Theme.Translucent.Album" parent="CameraRoll.Theme" />
 
     <style name="CameraRoll.Theme.Light.Translucent.Album" parent="CameraRoll.Theme.Light.Translucent" />
 

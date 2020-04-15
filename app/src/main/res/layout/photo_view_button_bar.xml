@@ -4,18 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
-    android:background="@android:color/transparent">
+    android:background="@android:color/transparent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/transparent_to_dark_gradient"
         android:baselineAligned="false"
         android:orientation="horizontal"
-        android:paddingBottom="16dp"
-        android:paddingEnd="16dp"
         android:paddingStart="16dp"
-        android:background="@drawable/transparent_to_dark_gradient">
+        android:paddingEnd="16dp"
+        android:paddingBottom="16dp">
 
         <RelativeLayout
             android:layout_width="0dp"
@@ -27,8 +28,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:background="?selectableItemBackgroundBorderless"
                 android:contentDescription="@string/info"
                 android:onClick="bottomBarOnClick"
@@ -46,8 +47,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:background="?selectableItemBackgroundBorderless"
                 android:contentDescription="@string/share"
                 android:onClick="bottomBarOnClick"
@@ -65,8 +66,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:background="?selectableItemBackgroundBorderless"
                 android:contentDescription="@string/edit"
                 android:onClick="bottomBarOnClick"
@@ -84,8 +85,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:background="?selectableItemBackgroundBorderless"
                 android:contentDescription="@string/delete"
                 android:onClick="bottomBarOnClick"
@@ -93,4 +94,22 @@
                 app:srcCompat="@drawable/ic_delete_white" />
         </RelativeLayout>
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/rlmAdView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:visibility="gone"
+            android:background="@color/colorAccent">
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
 </LinearLayout>

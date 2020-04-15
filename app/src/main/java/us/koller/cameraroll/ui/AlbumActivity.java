@@ -19,10 +19,16 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+
 import androidx.core.app.SharedElementCallback;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
@@ -31,10 +37,13 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
+
 import android.transition.Fade;
 import android.transition.Slide;
 import android.transition.TransitionSet;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,6 +52,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowInsets;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +75,7 @@ import us.koller.cameraroll.data.Settings;
 import us.koller.cameraroll.ui.widget.FastScrollerRecyclerView;
 import us.koller.cameraroll.ui.widget.GridMarginDecoration;
 import us.koller.cameraroll.ui.widget.SwipeBackCoordinatorLayout;
+import us.koller.cameraroll.util.NetworkStateReceiver;
 import us.koller.cameraroll.util.SortUtil;
 import us.koller.cameraroll.util.StorageUtil;
 import us.koller.cameraroll.util.animators.ColorFade;
@@ -72,7 +83,7 @@ import us.koller.cameraroll.util.MediaType;
 import us.koller.cameraroll.util.Util;
 
 public class AlbumActivity extends ThemeableActivity
-        implements SwipeBackCoordinatorLayout.OnSwipeListener, SelectorModeManager.Callback {
+        implements SwipeBackCoordinatorLayout.OnSwipeListener, NetworkStateReceiver.NetworkStateReceiverListener, SelectorModeManager.Callback {
 
     public static final int FILE_OP_DIALOG_REQUEST = 1;
 
@@ -85,6 +96,11 @@ public class AlbumActivity extends ThemeableActivity
     public static final String RECYCLER_VIEW_SCROLL_STATE = "RECYCLER_VIEW_STATE";
 
     private int sharedElementReturnPosition = -1;
+
+    RelativeLayout rlmAdView;
+    private NetworkStateReceiver networkStateReceiver;
+    AdView mAdView;
+
 
     private final SharedElementCallback mCallback = new SharedElementCallback() {
         @Override
@@ -154,10 +170,10 @@ public class AlbumActivity extends ThemeableActivity
                     .setInterpolator(new AccelerateDecelerateInterpolator()));
         }
 
-        final ViewGroup swipeBackView = findViewById(R.id.swipeBackView);
+      /*  final ViewGroup swipeBackView = findViewById(R.id.swipeBackView);
         if (swipeBackView instanceof SwipeBackCoordinatorLayout) {
             ((SwipeBackCoordinatorLayout) swipeBackView).setOnSwipeListener(this);
-        }
+        }*/
 
         final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -226,7 +242,7 @@ public class AlbumActivity extends ThemeableActivity
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (recyclerViewAdapter.isSelectorModeActive()
+           /*     if (recyclerViewAdapter.isSelectorModeActive()
                         || pick_photos) {
                     return;
                 }
@@ -244,9 +260,9 @@ public class AlbumActivity extends ThemeableActivity
                         toolbar.setActivated(false);
                     }
                 }
-                toolbar.setTranslationY(translationY);
+                toolbar.setTranslationY(translationY);*/
 
-                //animate statusBarIcon color
+             /*   //animate statusBarIcon color
                 if (theme.darkStatusBarIcons()) {
                     float animatedValue = (-translationY) / toolbar.getHeight();
                     if (animatedValue > 0.9f) {
@@ -254,7 +270,7 @@ public class AlbumActivity extends ThemeableActivity
                     } else {
                         Util.setDarkStatusBarIcons(findViewById(R.id.root_view));
                     }
-                }
+                }*/
             }
         });
 
@@ -299,7 +315,7 @@ public class AlbumActivity extends ThemeableActivity
                     toolbar.setLayoutParams(toolbarParams);
 
                     recyclerView.setPadding(recyclerView.getPaddingStart() + insets.getSystemWindowInsetLeft(),
-                            recyclerView.getPaddingTop() + insets.getSystemWindowInsetTop(),
+                            0,
                             recyclerView.getPaddingEnd() + insets.getSystemWindowInsetRight(),
                             recyclerView.getPaddingBottom() + insets.getSystemWindowInsetBottom());
 
@@ -338,7 +354,7 @@ public class AlbumActivity extends ThemeableActivity
                                     toolbar.setLayoutParams(toolbarParams);
 
                                     recyclerView.setPadding(recyclerView.getPaddingStart() + windowInsets[0],
-                                            recyclerView.getPaddingTop() + windowInsets[1],
+                                            0,
                                             recyclerView.getPaddingEnd() + windowInsets[2],
                                             recyclerView.getPaddingBottom() + windowInsets[3]);
                                     recyclerView.scrollToPosition(0);
@@ -371,7 +387,11 @@ public class AlbumActivity extends ThemeableActivity
                         AlbumActivity.this.onAlbumLoaded(savedInstanceState);
                     }
                 });
+        rlmAdView = findViewById(R.id.rlmAdView);
 
+        networkStateReceiver = new NetworkStateReceiver();
+        networkStateReceiver.addListener(this);
+        this.registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
     }
 
     private void onAlbumLoaded(Bundle savedInstanceState) {
@@ -1193,5 +1213,42 @@ public class AlbumActivity extends ThemeableActivity
         if (album.getAlbumItems().size() == 0) {
             finish();
         }
+    }
+
+
+    @Override
+    public void networkAvailable() {
+        admobBanner();
+    }
+
+    @Override
+    public void networkUnavailable() {
+        rlmAdView.removeAllViews();
+    }
+
+    void admobBanner() {
+
+        mAdView = new AdView(this);
+        mAdView.setAdUnitId(getString(R.string.admob_banner_id));
+        rlmAdView.addView(mAdView);
+        rlmAdView.setVisibility(View.VISIBLE);
+        loadBanner();
+    }
+
+    private void loadBanner() {
+        AdRequest adRequest = new AdRequest.Builder().build();
+        AdSize adSize = getAdSize();
+        mAdView.setAdSize(adSize);
+        mAdView.loadAd(adRequest);
+    }
+
+    private AdSize getAdSize() {
+        Display display = getWindowManager().getDefaultDisplay();
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        display.getMetrics(outMetrics);
+        float widthPixels = outMetrics.widthPixels;
+        float density = outMetrics.density;
+        int adWidth = (int) (widthPixels / density);
+        return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(this, adWidth);
     }
 }

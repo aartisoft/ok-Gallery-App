@@ -16,5 +16,9 @@
         android:layout_height="wrap_content"
         android:background="@drawable/dark_to_transparent_gradient" />
 
-    <include layout="@layout/photo_view_button_bar" />
+    <include
+
+        layout="@layout/photo_view_button_bar" />
+
+
 </FrameLayout>

@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="us.koller.cameraroll">
-
+    <uses-permission android:name="android.permission.INTERNET" />
     <!--to read & write images ...-->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -40,6 +40,10 @@
             android:theme="@style/CameraRoll.Theme.PhotoView"
             android:windowSoftInputMode="adjustPan" />
 
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="@string/admob_app_id" />
+
         <activity
             android:name=".ui.VideoPlayerActivity"
             android:configChanges="screenSize|smallestScreenSize|orientation|screenLayout"
@@ -67,6 +71,18 @@
             android:name=".ui.FileOperationDialogActivity"
             android:launchMode="singleTop"
             android:theme="@style/CameraRoll.Theme.Translucent.FileOperationDialog" />
+
+        <receiver
+            android:name=".util.NetworkStateReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action
+                    android:name="android.net.conn.CONNECTIVITY_CHANGE"
+                    tools:ignore="BatteryLife" />
+            </intent-filter>
+        </receiver>
 
         <activity
             android:name=".ui.ExifEditorActivity"

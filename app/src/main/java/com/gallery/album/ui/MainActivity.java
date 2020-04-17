@@ -390,8 +390,7 @@ public class MainActivity extends ThemeableActivity implements NetworkStateRecei
         setSystemUiFlags();
 
 
-
-        rlmAdView=findViewById(R.id.rlmAdView);
+        rlmAdView = findViewById(R.id.rlmAdView);
 
         networkStateReceiver = new NetworkStateReceiver();
         networkStateReceiver.addListener(this);
@@ -597,7 +596,7 @@ public class MainActivity extends ThemeableActivity implements NetworkStateRecei
         if (pick_photos) {
             menu.findItem(R.id.file_explorer).setVisible(false);
             menu.findItem(R.id.settings).setVisible(false);
-            menu.findItem(R.id.about).setVisible(false);
+
         }
         return true;
     }
@@ -630,10 +629,6 @@ public class MainActivity extends ThemeableActivity implements NetworkStateRecei
             case R.id.settings:
                 startActivityForResult(new Intent(this, SettingsActivity.class),
                         SETTINGS_REQUEST_CODE);
-                break;
-            case R.id.about:
-                startActivity(new Intent(this, AboutActivity.class),
-                        ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle());
                 break;
             case R.id.sort_by_name:
             case R.id.sort_by_size:
@@ -874,7 +869,7 @@ public class MainActivity extends ThemeableActivity implements NetworkStateRecei
 
     @Override
     public void networkUnavailable() {
-       rlmAdView.removeAllViews();
+        rlmAdView.removeAllViews();
     }
 
     void admobBanner() {

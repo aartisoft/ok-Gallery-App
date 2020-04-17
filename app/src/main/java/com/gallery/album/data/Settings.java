@@ -66,7 +66,7 @@ public class Settings {
 
         style = sharedPreferences.getInt(
                 context.getString(R.string.pref_key_style),
-                context.getResources().getInteger(R.integer.STYLE_PARALLAX_VALUE));
+                context.getResources().getInteger(R.integer.STYLE_NESTED_RECYCLER_VIEW_VALUE));
 
         columnCount = sharedPreferences.getInt(
                 context.getString(R.string.pref_key_column_count),

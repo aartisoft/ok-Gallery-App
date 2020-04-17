@@ -95,21 +95,6 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <RelativeLayout
-            android:id="@+id/rlmAdView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:visibility="gone"
-            android:background="@color/colorAccent">
-
-
-        </RelativeLayout>
-
-    </LinearLayout>
 
 </LinearLayout>

@@ -37,7 +37,7 @@
         android:tag="@string/theme_bg_color">
 
 
-        <us.koller.cameraroll.ui.widget.FastScrollerRecyclerView
+        <com.gallery.album.ui.widget.FastScrollerRecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

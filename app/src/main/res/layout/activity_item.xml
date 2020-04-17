@@ -4,8 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <!--Using HackyViewPager to prevent crashes with PhotoView-->
-    <us.koller.cameraroll.ui.widget.HackyViewPager
+    <com.gallery.album.ui.widget.HackyViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

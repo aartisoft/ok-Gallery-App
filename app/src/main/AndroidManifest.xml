@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="us.koller.cameraroll">
+    package="com.gallery.album">
     <uses-permission android:name="android.permission.INTERNET" />
     <!--to read & write images ...-->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -20,7 +20,7 @@
         android:theme="@style/CameraRoll.Theme">
 
         <activity
-            android:name=".ui.MainActivity"
+            android:name="com.gallery.album.ui.MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/CameraRoll.Theme.Main">
             <intent-filter>
@@ -30,12 +30,12 @@
         </activity>
 
         <activity
-            android:name=".ui.AlbumActivity"
+            android:name="com.gallery.album.ui.AlbumActivity"
             android:launchMode="singleTop"
             android:theme="@style/CameraRoll.Theme.Translucent.Album" />
 
         <activity
-            android:name=".ui.ItemActivity"
+            android:name="com.gallery.album.ui.ItemActivity"
             android:launchMode="singleTop"
             android:theme="@style/CameraRoll.Theme.PhotoView"
             android:windowSoftInputMode="adjustPan" />
@@ -45,7 +45,7 @@
             android:value="@string/admob_app_id" />
 
         <activity
-            android:name=".ui.VideoPlayerActivity"
+            android:name="com.gallery.album.ui.VideoPlayerActivity"
             android:configChanges="screenSize|smallestScreenSize|orientation|screenLayout"
             android:launchMode="singleTask"
             android:supportsPictureInPicture="true"
@@ -53,27 +53,27 @@
             tools:targetApi="n" />
 
         <activity
-            android:name=".ui.SettingsActivity"
+            android:name="com.gallery.album.ui.SettingsActivity"
             android:launchMode="singleTop"
             android:theme="@style/CameraRoll.Theme.Settings" />
 
         <activity
-            android:name=".ui.AboutActivity"
+            android:name="com.gallery.album.ui.AboutActivity"
             android:launchMode="singleTop"
             android:theme="@style/CameraRoll.Theme.Translucent.About" />
 
         <activity
-            android:name=".ui.FileExplorerActivity"
+            android:name="com.gallery.album.ui.FileExplorerActivity"
             android:launchMode="singleTop"
             android:theme="@style/CameraRoll.Theme.Translucent.FileExplorer" />
 
         <activity
-            android:name=".ui.FileOperationDialogActivity"
+            android:name="com.gallery.album.ui.FileOperationDialogActivity"
             android:launchMode="singleTop"
             android:theme="@style/CameraRoll.Theme.Translucent.FileOperationDialog" />
 
         <receiver
-            android:name=".util.NetworkStateReceiver"
+            android:name="com.gallery.album.util.NetworkStateReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -85,19 +85,19 @@
         </receiver>
 
         <activity
-            android:name=".ui.ExifEditorActivity"
+            android:name="com.gallery.album.ui.ExifEditorActivity"
             android:launchMode="singleTop"
             android:theme="@style/CameraRoll.Theme.ExifEditor"
             android:windowSoftInputMode="adjustPan" />
 
         <activity
-            android:name=".ui.EditImageActivity"
+            android:name="com.gallery.album.ui.EditImageActivity"
             android:label="@string/edit"
             android:launchMode="singleTop"
             android:theme="@style/CameraRoll.Theme.EditImage" />
 
         <activity
-            android:name=".ui.SetWallpaperActivity"
+            android:name="com.gallery.album.ui.SetWallpaperActivity"
             android:label="@string/wallpaper"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
@@ -111,18 +111,18 @@
         </activity>
 
         <activity
-            android:name=".ui.ExcludePathsActivity"
+            android:name="com.gallery.album.ui.ExcludePathsActivity"
             android:label="@string/excluded_paths"
             android:launchMode="singleTop"
             android:theme="@style/CameraRoll.Theme.ExcludePaths" />
 
         <activity
-            android:name=".ui.VirtualAlbumsActivity"
+            android:name="com.gallery.album.ui.VirtualAlbumsActivity"
             android:label="@string/virtual_albums"
             android:launchMode="singleTop"
             android:theme="@style/CameraRoll.Theme.VirtualDirectories" />
 
-        <activity android:name=".IntentReceiver">
+        <activity android:name="com.gallery.album.IntentReceiver">
             <intent-filter tools:ignore="AppLinkUrlError">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -176,23 +176,23 @@
 
 
         <service
-            android:name=".data.fileOperations.Copy"
+            android:name="com.gallery.album.data.fileOperations.Copy"
             tools:ignore="InnerclassSeparator" />
 
         <service
-            android:name=".data.fileOperations.Delete"
+            android:name="com.gallery.album.data.fileOperations.Delete"
             tools:ignore="InnerclassSeparator" />
 
         <service
-            android:name=".data.fileOperations.Move"
+            android:name="com.gallery.album.data.fileOperations.Move"
             tools:ignore="InnerclassSeparator" />
 
         <service
-            android:name=".data.fileOperations.NewDirectory"
+            android:name="com.gallery.album.data.fileOperations.NewDirectory"
             tools:ignore="InnerclassSeparator" />
 
         <service
-            android:name=".data.fileOperations.Rename"
+            android:name="com.gallery.album.data.fileOperations.Rename"
             tools:ignore="InnerclassSeparator" />
     </application>
 </manifest>

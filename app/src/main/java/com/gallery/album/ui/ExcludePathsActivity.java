@@ -1,16 +1,27 @@
 package com.gallery.album.ui;
 
 import android.content.Context;
+import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+
+import com.gallery.album.util.NetworkStateReceiver;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.google.android.material.snackbar.Snackbar;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
+
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +30,8 @@ import android.view.ViewTreeObserver;
 import android.view.WindowInsets;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.io.File;
@@ -32,7 +45,7 @@ import com.gallery.album.data.provider.Provider;
 import com.gallery.album.themes.Theme;
 import com.gallery.album.util.Util;
 
-public class ExcludePathsActivity extends ThemeableActivity {
+public class ExcludePathsActivity extends ThemeableActivity implements NetworkStateReceiver.NetworkStateReceiverListener {
 
     public static final String ROOTS = "ROOTS";
     public static final String CURRENT_DIR = "CURRENT_DIR";
@@ -73,6 +86,10 @@ public class ExcludePathsActivity extends ThemeableActivity {
     interface OnExcludedPathChange {
         void onExcludedPathChange(String path, boolean exclude);
     }
+
+    LinearLayout rlmAdView;
+    private NetworkStateReceiver networkStateReceiver;
+    AdView mAdView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -168,6 +185,12 @@ public class ExcludePathsActivity extends ThemeableActivity {
         }
 
         Log.d("ExcludedPathsActivity", "onCreate: " + Provider.getExcludedPaths());
+
+        rlmAdView = findViewById(R.id.rlmAdView);
+
+        networkStateReceiver = new NetworkStateReceiver();
+        networkStateReceiver.addListener(this);
+        this.registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
     }
 
     @Override
@@ -443,5 +466,42 @@ public class ExcludePathsActivity extends ThemeableActivity {
             }
             return 0;
         }
+    }
+
+    @Override
+    public void networkAvailable() {
+        admobBanner();
+    }
+
+    @Override
+    public void networkUnavailable() {
+        rlmAdView.removeAllViews();
+
+    }
+
+    void admobBanner() {
+
+        mAdView = new AdView(this);
+        mAdView.setAdUnitId(getString(R.string.admob_banner_id));
+        rlmAdView.addView(mAdView);
+        rlmAdView.setVisibility(View.VISIBLE);
+        loadBanner();
+    }
+
+    private void loadBanner() {
+        AdRequest adRequest = new AdRequest.Builder().build();
+        AdSize adSize = getAdSize();
+        mAdView.setAdSize(adSize);
+        mAdView.loadAd(adRequest);
+    }
+
+    private AdSize getAdSize() {
+        Display display = getWindowManager().getDefaultDisplay();
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        display.getMetrics(outMetrics);
+        float widthPixels = outMetrics.widthPixels;
+        float density = outMetrics.density;
+        int adWidth = (int) (widthPixels / density);
+        return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(this, adWidth);
     }
 }

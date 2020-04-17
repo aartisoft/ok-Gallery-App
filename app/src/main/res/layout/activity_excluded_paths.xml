@@ -20,11 +20,17 @@
             android:ellipsize="start"
             android:fontFamily="@font/roboto_mono_medium"
             android:gravity="start"
-            android:paddingEnd="8dp"
             android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:singleLine="true" />
 
     </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:id="@+id/rlmAdView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

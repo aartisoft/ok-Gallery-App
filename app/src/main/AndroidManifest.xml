@@ -80,12 +80,6 @@
         </receiver>
 
         <activity
-            android:name="com.gallery.album.ui.ExifEditorActivity"
-            android:launchMode="singleTop"
-            android:theme="@style/CameraRoll.Theme.ExifEditor"
-            android:windowSoftInputMode="adjustPan" />
-
-        <activity
             android:name="com.gallery.album.ui.EditImageActivity"
             android:label="@string/edit"
             android:launchMode="singleTop"

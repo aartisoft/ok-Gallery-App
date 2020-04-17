@@ -707,18 +707,7 @@ public class ItemActivity extends ThemeableActivity {
                         infoDialog = null;
                     }
                 });
-        if (exifSupported && !view_only) {
-            builder.setNeutralButton(R.string.edit_exif, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    Intent intent =
-                            new Intent(ItemActivity.this,
-                                    ExifEditorActivity.class);
-                    intent.putExtra(ExifEditorActivity.ALBUM_ITEM, albumItem);
-                    startActivity(intent);
-                }
-            });
-        }
+
         infoDialog = builder.create();
         infoDialog.show();
         //noinspection ConstantConditions

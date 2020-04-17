@@ -1,8 +1,10 @@
 package com.gallery.album.ui;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.preference.SwitchPreference;
@@ -14,12 +16,16 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.TwoStatePreference;
 import androidx.appcompat.widget.Toolbar;
+
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowInsets;
+import android.widget.RelativeLayout;
 
 import java.util.Arrays;
 
@@ -30,11 +36,18 @@ import com.gallery.album.preferences.ColumnCountPreference;
 import com.gallery.album.preferences.ColumnCountPreferenceDialogFragment;
 import com.gallery.album.preferences.StylePreference;
 import com.gallery.album.preferences.StylePreferenceDialogFragment;
+import com.gallery.album.util.NetworkStateReceiver;
 import com.gallery.album.util.Util;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 
-public class SettingsActivity extends ThemeableActivity {
+public class SettingsActivity extends ThemeableActivity implements NetworkStateReceiver.NetworkStateReceiverListener {
 
     private static boolean recreated = false;
+    RelativeLayout rlmAdView;
+    NetworkStateReceiver networkStateReceiver;
+    AdView mAdView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,7 +60,7 @@ public class SettingsActivity extends ThemeableActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
+        rlmAdView = findViewById(R.id.rlmAdView);
         //setting window insets manually
         final View rootView = findViewById(R.id.root_view);
         final View container = findViewById(R.id.preference_fragment_container);
@@ -129,6 +142,12 @@ public class SettingsActivity extends ThemeableActivity {
         });
 
         setSystemUiFlags();
+
+
+        networkStateReceiver = new NetworkStateReceiver();
+        networkStateReceiver.addListener(this);
+        this.registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
+
     }
 
     @Override
@@ -202,6 +221,7 @@ public class SettingsActivity extends ThemeableActivity {
 
         private int shownDialogFragment = NONE;
         private OnSettingChangedCallback callback;
+
 
         interface OnSettingChangedCallback {
             void onSettingChanged();
@@ -438,5 +458,41 @@ public class SettingsActivity extends ThemeableActivity {
         void setCallback(OnSettingChangedCallback callback) {
             this.callback = callback;
         }
+    }
+
+    @Override
+    public void networkAvailable() {
+        admobBanner();
+    }
+
+    @Override
+    public void networkUnavailable() {
+        rlmAdView.removeAllViews();
+    }
+
+    void admobBanner() {
+
+        mAdView = new AdView(this);
+        mAdView.setAdUnitId(getString(R.string.admob_banner_id));
+        rlmAdView.addView(mAdView);
+        rlmAdView.setVisibility(View.VISIBLE);
+        loadBanner();
+    }
+
+    private void loadBanner() {
+        AdRequest adRequest = new AdRequest.Builder().build();
+        AdSize adSize = getAdSize();
+        mAdView.setAdSize(adSize);
+        mAdView.loadAd(adRequest);
+    }
+
+    private AdSize getAdSize() {
+        Display display = getWindowManager().getDefaultDisplay();
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        display.getMetrics(outMetrics);
+        float widthPixels = outMetrics.widthPixels;
+        float density = outMetrics.density;
+        int adWidth = (int) (widthPixels / density);
+        return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(this, adWidth);
     }
 }

@@ -37,7 +37,15 @@
             android:layout_gravity="center_horizontal"
             android:layout_margin="8dp"
             android:text="@string/done" />
+
+        <RelativeLayout
+            android:id="@+id/rlmAdView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
     </LinearLayout>
+
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"

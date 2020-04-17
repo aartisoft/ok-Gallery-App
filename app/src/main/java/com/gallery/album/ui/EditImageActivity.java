@@ -2,6 +2,7 @@ package com.gallery.album.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.AnimatedVectorDrawable;
@@ -10,14 +11,24 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+
+import com.gallery.album.util.NetworkStateReceiver;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+
 import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +36,8 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowInsets;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -40,7 +53,7 @@ import com.gallery.album.util.InfoUtil;
 import com.gallery.album.util.MediaType;
 import com.gallery.album.util.Util;
 
-public class EditImageActivity extends AppCompatActivity {
+public class EditImageActivity extends AppCompatActivity implements NetworkStateReceiver.NetworkStateReceiverListener {
 
     public static final String IMAGE_PATH = "IMAGE_PATH";
     public static final String IMAGE_VIEW_STATE = "IMAGE_VIEW_STATE";
@@ -52,6 +65,10 @@ public class EditImageActivity extends AppCompatActivity {
 
     private CropImageView.Result result;
     private ExifUtil.ExifItem[] exifData;
+
+    RelativeLayout rlmAdView;
+    private NetworkStateReceiver networkStateReceiver;
+    AdView mAdView;
 
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
@@ -183,6 +200,17 @@ public class EditImageActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE);
+
+
+        rlmAdView = findViewById(R.id.rlmAdView);
+
+        networkStateReceiver = new NetworkStateReceiver();
+        networkStateReceiver.addListener(this);
+        this.registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
+
+
+
+
     }
 
     public void done(View v) {
@@ -388,5 +416,43 @@ public class EditImageActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         CropImageView imageView = findViewById(R.id.cropImageView);
         outState.putSerializable(IMAGE_VIEW_STATE, imageView.getCropImageViewState());
+    }
+
+
+    @Override
+    public void networkAvailable() {
+        admobBanner();
+    }
+
+    @Override
+    public void networkUnavailable() {
+        rlmAdView.removeAllViews();
+
+    }
+
+    void admobBanner() {
+
+        mAdView = new AdView(this);
+        mAdView.setAdUnitId(getString(R.string.admob_banner_id));
+        rlmAdView.addView(mAdView);
+        rlmAdView.setVisibility(View.VISIBLE);
+        loadBanner();
+    }
+
+    private void loadBanner() {
+        AdRequest adRequest = new AdRequest.Builder().build();
+        AdSize adSize = getAdSize();
+        mAdView.setAdSize(adSize);
+        mAdView.loadAd(adRequest);
+    }
+
+    private AdSize getAdSize() {
+        Display display = getWindowManager().getDefaultDisplay();
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        display.getMetrics(outMetrics);
+        float widthPixels = outMetrics.widthPixels;
+        float density = outMetrics.density;
+        int adWidth = (int) (widthPixels / density);
+        return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(this, adWidth);
     }
 }

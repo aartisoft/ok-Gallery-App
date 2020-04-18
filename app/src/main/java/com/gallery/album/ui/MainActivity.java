@@ -292,7 +292,7 @@ public class MainActivity extends ThemeableActivity implements NetworkStateRecei
         });
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Drawable d = ContextCompat.getDrawable(this,
-                    R.drawable.ic_camera_lens_avd);
+                    R.drawable.ic_camera_white);
             fab.setImageDrawable(d);
         } else {
             fab.setImageResource(R.drawable.ic_camera_white);

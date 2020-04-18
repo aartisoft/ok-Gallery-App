@@ -7,8 +7,8 @@
     <!--black theme colors-->
     <color name="black_bg">#000000</color>
     <!--accent color-->
-    <color name="colorAccent">#69F0AE</color>
-    <color name="colorAccentLight">#69F0AE</color>
+    <color name="colorAccent">#6200EE</color>
+    <color name="colorAccentLight">#6200EE</color>
     <color name="colorAccent_text">#000000</color>
 
     <!--light theme colors-->

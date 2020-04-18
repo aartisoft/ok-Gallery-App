@@ -52,14 +52,14 @@
         <item>@integer/STYLE_PARALLAX_VALUE</item>
         <item>@integer/STYLE_CARDS_VALUE</item>
         <item>@integer/STYLE_CARDS_2_VALUE</item>
-        <item>@integer/STYLE_NESTED_RECYCLER_VIEW_VALUE</item>
+        <!--<item>@integer/STYLE_NESTED_RECYCLER_VIEW_VALUE</item>-->
         <item>@integer/STYLE_LIST_VALUE</item>
     </integer-array>
     <string-array name="style_names">
         <item>@string/STYLE_PARALLAX_NAME</item>
         <item>@string/STYLE_CARDS_NAME</item>
         <item>@string/STYLE_CARDS_2_NAME</item>
-        <item>@string/STYLE_NESTED_RECYCLER_VIEW_NAME</item>
+        <!--<item>@string/STYLE_NESTED_RECYCLER_VIEW_NAME</item>-->
         <item>@string/STYLE_LIST_NAME</item>
     </string-array>
 </resources>

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "117804926368",
+    "firebase_url": "https://okgallery-c23c7.firebaseio.com",
+    "project_id": "okgallery-c23c7",
+    "storage_bucket": "okgallery-c23c7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:117804926368:android:422c98ff630c9e2c44d0c5",
+        "android_client_info": {
+          "package_name": "com.gallery.album"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "117804926368-k9ds0pdv23n4bnf9302h2j6g1lnkd5st.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeT3p-iHBDTyzXc5t9JZST-OzoGVFPMW4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "117804926368-k9ds0pdv23n4bnf9302h2j6g1lnkd5st.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!--suppress AndroidElementNotAllowed -->
     <Preference
@@ -13,8 +14,9 @@
 
     <PreferenceCategory android:title="@string/appearance">
         <ListPreference
-            android:defaultValue="@string/DARK_THEME_VALUE"
+            android:defaultValue="@string/LIGHT_THEME_VALUE"
             android:entries="@array/theme_names"
+            app:isPreferenceVisible="false"
             android:entryValues="@array/theme_values"
             android:key="@string/pref_key_theme"
             android:title="@string/theme" />

@@ -58,7 +58,7 @@ public class Settings {
 
         theme = sharedPreferences.getString(
                 context.getString(R.string.pref_key_theme),
-                context.getString(R.string.DARK_THEME_VALUE));
+                context.getString(R.string.LIGHT_THEME_VALUE));
 
         storageRetriever = sharedPreferences.getBoolean(
                 context.getString(R.string.pref_key_media_retriever),
@@ -66,7 +66,7 @@ public class Settings {
 
         style = sharedPreferences.getInt(
                 context.getString(R.string.pref_key_style),
-                context.getResources().getInteger(R.integer.STYLE_NESTED_RECYCLER_VIEW_VALUE));
+                context.getResources().getInteger(R.integer.STYLE_CARDS_2_VALUE));
 
         columnCount = sharedPreferences.getInt(
                 context.getString(R.string.pref_key_column_count),

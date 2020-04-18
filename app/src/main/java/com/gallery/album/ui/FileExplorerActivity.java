@@ -1010,12 +1010,12 @@ public class FileExplorerActivity extends ThemeableActivity
 
     @Override
     public int getDarkThemeRes() {
-        return R.style.CameraRoll_Theme_Translucent_FileExplorer;
+        return R.style.Gallery_Theme_Translucent_FileExplorer;
     }
 
     @Override
     public int getLightThemeRes() {
-        return R.style.CameraRoll_Theme_Light_Translucent_FileExplorer;
+        return R.style.Gallery_Theme_Light_Translucent_FileExplorer;
     }
 
     @Override

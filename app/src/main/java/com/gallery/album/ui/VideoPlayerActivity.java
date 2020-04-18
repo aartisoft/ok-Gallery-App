@@ -335,12 +335,12 @@ public class VideoPlayerActivity extends ThemeableActivity {
 
     @Override
     public int getDarkThemeRes() {
-        return R.style.CameraRoll_Theme_VideoPlayer;
+        return R.style.Gallery_Theme_VideoPlayer;
     }
 
     @Override
     public int getLightThemeRes() {
-        return R.style.CameraRoll_Theme_Light_VideoPlayer;
+        return R.style.Gallery_Theme_Light_VideoPlayer;
     }
 
     public static class SimpleEventListener implements Player.EventListener {

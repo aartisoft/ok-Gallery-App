@@ -17,12 +17,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/CameraRoll.Theme">
+        android:theme="@style/Gallery.Theme">
 
         <activity
             android:name="com.gallery.album.ui.MainActivity"
             android:launchMode="singleTop"
-            android:theme="@style/CameraRoll.Theme.Main">
+            android:theme="@style/Gallery.Theme.Main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -32,12 +32,12 @@
         <activity
             android:name="com.gallery.album.ui.AlbumActivity"
             android:launchMode="singleTop"
-            android:theme="@style/CameraRoll.Theme.Translucent.Album" />
+            android:theme="@style/Gallery.Theme.Translucent.Album" />
 
         <activity
             android:name="com.gallery.album.ui.ItemActivity"
             android:launchMode="singleTop"
-            android:theme="@style/CameraRoll.Theme.PhotoView"
+            android:theme="@style/Gallery.Theme.PhotoView"
             android:windowSoftInputMode="adjustPan" />
 
         <meta-data
@@ -49,23 +49,23 @@
             android:configChanges="screenSize|smallestScreenSize|orientation|screenLayout"
             android:launchMode="singleTask"
             android:supportsPictureInPicture="true"
-            android:theme="@style/CameraRoll.Theme.VideoPlayer"
+            android:theme="@style/Gallery.Theme.VideoPlayer"
             tools:targetApi="n" />
 
         <activity
             android:name="com.gallery.album.ui.SettingsActivity"
             android:launchMode="singleTop"
-            android:theme="@style/CameraRoll.Theme.Settings" />
+            android:theme="@style/Gallery.Theme.Settings" />
 
         <activity
             android:name="com.gallery.album.ui.FileExplorerActivity"
             android:launchMode="singleTop"
-            android:theme="@style/CameraRoll.Theme.Translucent.FileExplorer" />
+            android:theme="@style/Gallery.Theme.Translucent.FileExplorer" />
 
         <activity
             android:name="com.gallery.album.ui.FileOperationDialogActivity"
             android:launchMode="singleTop"
-            android:theme="@style/CameraRoll.Theme.Translucent.FileOperationDialog" />
+            android:theme="@style/Gallery.Theme.Translucent.FileOperationDialog" />
 
         <receiver
             android:name="com.gallery.album.util.NetworkStateReceiver"
@@ -83,14 +83,14 @@
             android:name="com.gallery.album.ui.EditImageActivity"
             android:label="@string/edit"
             android:launchMode="singleTop"
-            android:theme="@style/CameraRoll.Theme.EditImage" />
+            android:theme="@style/Gallery.Theme.EditImage" />
 
         <activity
             android:name="com.gallery.album.ui.SetWallpaperActivity"
             android:label="@string/wallpaper"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/CameraRoll.Theme.SetWallpaper">
+            android:theme="@style/Gallery.Theme.SetWallpaper">
 
             <intent-filter>
                 <action android:name="android.intent.action.ATTACH_DATA" />
@@ -103,13 +103,13 @@
             android:name="com.gallery.album.ui.ExcludePathsActivity"
             android:label="@string/excluded_paths"
             android:launchMode="singleTop"
-            android:theme="@style/CameraRoll.Theme.ExcludePaths" />
+            android:theme="@style/Gallery.Theme.ExcludePaths" />
 
         <activity
             android:name="com.gallery.album.ui.VirtualAlbumsActivity"
             android:label="@string/virtual_albums"
             android:launchMode="singleTop"
-            android:theme="@style/CameraRoll.Theme.VirtualDirectories" />
+            android:theme="@style/Gallery.Theme.VirtualDirectories" />
 
         <activity android:name="com.gallery.album.IntentReceiver">
             <intent-filter tools:ignore="AppLinkUrlError">

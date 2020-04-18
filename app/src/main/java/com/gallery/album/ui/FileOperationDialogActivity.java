@@ -315,12 +315,12 @@ public class FileOperationDialogActivity extends ThemeableActivity {
 
     @Override
     public int getDarkThemeRes() {
-        return R.style.CameraRoll_Theme_Translucent_FileOperationDialog;
+        return R.style.Gallery_Theme_Translucent_FileOperationDialog;
     }
 
     @Override
     public int getLightThemeRes() {
-        return R.style.CameraRoll_Theme_Light_Translucent_FileOperationDialog;
+        return R.style.Gallery_Theme_Light_Translucent_FileOperationDialog;
     }
 
     @Override

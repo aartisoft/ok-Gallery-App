@@ -802,12 +802,12 @@ public class MainActivity extends ThemeableActivity implements NetworkStateRecei
 
     @Override
     public int getDarkThemeRes() {
-        return R.style.CameraRoll_Theme_Main;
+        return R.style.Gallery_Theme_Main;
     }
 
     @Override
     public int getLightThemeRes() {
-        return R.style.CameraRoll_Theme_Light_Main;
+        return R.style.Gallery_Theme_Light_Main;
     }
 
     @Override

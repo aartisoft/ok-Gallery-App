@@ -226,12 +226,12 @@ public class VirtualAlbumsActivity extends ThemeableActivity implements NetworkS
 
     @Override
     public int getDarkThemeRes() {
-        return R.style.CameraRoll_Theme_VirtualDirectories;
+        return R.style.Gallery_Theme_VirtualDirectories;
     }
 
     @Override
     public int getLightThemeRes() {
-        return R.style.CameraRoll_Theme_Light_VirtualDirectories;
+        return R.style.Gallery_Theme_Light_VirtualDirectories;
     }
 
     @Override

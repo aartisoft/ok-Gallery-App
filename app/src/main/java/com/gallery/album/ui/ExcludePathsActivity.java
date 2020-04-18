@@ -31,7 +31,6 @@ import android.view.WindowInsets;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.io.File;
@@ -347,12 +346,12 @@ public class ExcludePathsActivity extends ThemeableActivity implements NetworkSt
 
     @Override
     public int getDarkThemeRes() {
-        return R.style.CameraRoll_Theme_ExcludePaths;
+        return R.style.Gallery_Theme_ExcludePaths;
     }
 
     @Override
     public int getLightThemeRes() {
-        return R.style.CameraRoll_Theme_Light_ExcludePaths;
+        return R.style.Gallery_Theme_Light_ExcludePaths;
     }
 
     @Override

@@ -183,12 +183,12 @@ public class SettingsActivity extends ThemeableActivity implements NetworkStateR
 
     @Override
     public int getDarkThemeRes() {
-        return R.style.CameraRoll_Theme_Settings;
+        return R.style.Gallery_Theme_Settings;
     }
 
     @Override
     public int getLightThemeRes() {
-        return R.style.CameraRoll_Theme_Light_Settings;
+        return R.style.Gallery_Theme_Light_Settings;
     }
 
     @Override

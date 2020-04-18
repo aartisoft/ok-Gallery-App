@@ -21,14 +21,14 @@
 
         <!--suppress AndroidElementNotAllowed -->
         <com.gallery.album.preferences.StylePreference
-            style="@style/CameraRoll.Theme.DialogPreference"
+            style="@style/Gallery.Theme.DialogPreference"
             android:defaultValue="@integer/STYLE_PARALLAX_VALUE"
             android:key="@string/pref_key_style"
             android:title="@string/style" />
 
         <!--suppress AndroidElementNotAllowed -->
         <com.gallery.album.preferences.ColumnCountPreference
-            style="@style/CameraRoll.Theme.DialogPreference"
+            style="@style/Gallery.Theme.DialogPreference"
             android:defaultValue="4"
             android:key="@string/pref_key_column_count"
             android:title="@string/column_count" />

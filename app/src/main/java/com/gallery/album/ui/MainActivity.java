@@ -1,5 +1,6 @@
 package com.gallery.album.ui;
 
+import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.provider.MediaStore;
 
 import androidx.annotation.RequiresApi;
 
+import com.gallery.album.BuildConfig;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
@@ -74,7 +76,7 @@ public class MainActivity extends ThemeableActivity implements NetworkStateRecei
     public static final String REFRESH_MEDIA = "REFRESH_MEDIA";
     public static final String PICK_PHOTOS = "PICK_PHOTOS";
     public static final String RESORT = "RESORT";
-
+    boolean doubleBackToExitPressedOnce = false;
     public static final int PICK_PHOTOS_REQUEST_CODE = 6;
     public static final int REFRESH_PHOTOS_REQUEST_CODE = 7;
     public static final int REMOVABLE_STORAGE_PERMISSION_REQUEST_CODE = 8;
@@ -648,10 +650,37 @@ public class MainActivity extends ThemeableActivity implements NetworkStateRecei
                 resortAlbums();
 
                 break;
+
+            case R.id.share:
+                AppShare();
+                break;
+
+            case R.id.rate:
+                launchMarket();
+                break;
             default:
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void launchMarket() {
+        Uri uri = Uri.parse("market://details?id=" + getPackageName());
+        Intent myAppLinkToMarket = new Intent(Intent.ACTION_VIEW, uri);
+        try {
+            startActivity(myAppLinkToMarket);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(this, " unable to find market app", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void AppShare() {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT,"Ok Gallery is an excellent, feature-rich app for organizing your photos : https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID);
+        sendIntent.setType("text/plain");
+        startActivity(sendIntent);
+
     }
 
     private void resortAlbums() {
@@ -783,9 +812,32 @@ public class MainActivity extends ThemeableActivity implements NetworkStateRecei
 
     @Override
     public void onBackPressed() {
+
+
+        if (doubleBackToExitPressedOnce && !recyclerViewAdapter.onBackPressed()) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, 2000);
+
+/*
+
         if (!recyclerViewAdapter.onBackPressed()) {
             super.onBackPressed();
         }
+
+*/
+
     }
 
     @Override

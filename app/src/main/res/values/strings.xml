@@ -195,4 +195,5 @@
 
     <string name="task_description_label">@string/app_name</string>
     <string name="toolbar_title">@string/app_name</string>
+    <string name="rate">Rate</string>
 </resources>

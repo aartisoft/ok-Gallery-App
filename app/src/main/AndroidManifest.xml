@@ -3,13 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.gallery.album">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <!--to read & write images ...-->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- to read & write images ... -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!--to set Wallpaper-->
-    <uses-permission android:name="android.permission.SET_WALLPAPER" />
-    <!--to show FileOperation progress as a notification-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- to set Wallpaper -->
+    <uses-permission android:name="android.permission.SET_WALLPAPER" /> <!-- to show FileOperation progress as a notification -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
@@ -19,24 +16,31 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Gallery.Theme">
-
         <activity
-            android:name="com.gallery.album.ui.MainActivity"
-            android:launchMode="singleTop"
-            android:theme="@style/Gallery.Theme.Main">
+            android:name=".ui.SplashscreenActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Gallery.Theme.NoActionBar">
+
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
 
+        </activity>
         <activity
-            android:name="com.gallery.album.ui.AlbumActivity"
+            android:name=".ui.MainActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/Gallery.Theme.Main">
+
+        </activity>
+        <activity
+            android:name=".ui.AlbumActivity"
             android:launchMode="singleTop"
             android:theme="@style/Gallery.Theme.Translucent.Album" />
-
         <activity
-            android:name="com.gallery.album.ui.ItemActivity"
+            android:name=".ui.ItemActivity"
             android:launchMode="singleTop"
             android:theme="@style/Gallery.Theme.PhotoView"
             android:windowSoftInputMode="adjustPan" />
@@ -46,30 +50,27 @@
             android:value="@string/admob_app_id" />
 
         <activity
-            android:name="com.gallery.album.ui.VideoPlayerActivity"
+            android:name=".ui.VideoPlayerActivity"
             android:configChanges="screenSize|smallestScreenSize|orientation|screenLayout"
             android:launchMode="singleTask"
             android:supportsPictureInPicture="true"
             android:theme="@style/Gallery.Theme.VideoPlayer"
             tools:targetApi="n" />
-
         <activity
-            android:name="com.gallery.album.ui.SettingsActivity"
+            android:name=".ui.SettingsActivity"
             android:launchMode="singleTop"
             android:theme="@style/Gallery.Theme.Settings" />
-
         <activity
-            android:name="com.gallery.album.ui.FileExplorerActivity"
+            android:name=".ui.FileExplorerActivity"
             android:launchMode="singleTop"
             android:theme="@style/Gallery.Theme.Translucent.FileExplorer" />
-
         <activity
-            android:name="com.gallery.album.ui.FileOperationDialogActivity"
+            android:name=".ui.FileOperationDialogActivity"
             android:launchMode="singleTop"
             android:theme="@style/Gallery.Theme.Translucent.FileOperationDialog" />
 
         <receiver
-            android:name="com.gallery.album.util.NetworkStateReceiver"
+            android:name=".util.NetworkStateReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -81,46 +82,43 @@
         </receiver>
 
         <activity
-            android:name="com.gallery.album.ui.EditImageActivity"
+            android:name=".ui.EditImageActivity"
             android:label="@string/edit"
             android:launchMode="singleTop"
             android:theme="@style/Gallery.Theme.EditImage" />
-
         <activity
-            android:name="com.gallery.album.ui.SetWallpaperActivity"
+            android:name=".ui.SetWallpaperActivity"
             android:label="@string/wallpaper"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/Gallery.Theme.SetWallpaper">
-
             <intent-filter>
                 <action android:name="android.intent.action.ATTACH_DATA" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="image/*" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name="com.gallery.album.ui.ExcludePathsActivity"
+            android:name=".ui.ExcludePathsActivity"
             android:label="@string/excluded_paths"
             android:launchMode="singleTop"
             android:theme="@style/Gallery.Theme.ExcludePaths" />
-
         <activity
-            android:name="com.gallery.album.ui.VirtualAlbumsActivity"
+            android:name=".ui.VirtualAlbumsActivity"
             android:label="@string/virtual_albums"
             android:launchMode="singleTop"
             android:theme="@style/Gallery.Theme.VirtualDirectories" />
-
-        <activity android:name="com.gallery.album.IntentReceiver">
+        <activity android:name=".IntentReceiver">
             <intent-filter tools:ignore="AppLinkUrlError">
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data android:mimeType="image/*" />
                 <data android:mimeType="video/*" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.GET_CONTENT" />
 
@@ -130,26 +128,27 @@
                 <data android:mimeType="image/*" />
                 <data android:mimeType="video/*" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.PICK" />
+
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data android:mimeType="image/*" />
                 <data android:mimeType="video/*" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="com.android.camera.action.REVIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data android:mimeType="image/*" />
                 <data android:mimeType="video/*" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.EDIT" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="image/*" />
             </intent-filter>
         </activity>
@@ -164,25 +163,21 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-
         <service
-            android:name="com.gallery.album.data.fileOperations.Copy"
+            android:name=".data.fileOperations.Copy"
             tools:ignore="InnerclassSeparator" />
-
         <service
-            android:name="com.gallery.album.data.fileOperations.Delete"
+            android:name=".data.fileOperations.Delete"
             tools:ignore="InnerclassSeparator" />
-
         <service
-            android:name="com.gallery.album.data.fileOperations.Move"
+            android:name=".data.fileOperations.Move"
             tools:ignore="InnerclassSeparator" />
-
         <service
-            android:name="com.gallery.album.data.fileOperations.NewDirectory"
+            android:name=".data.fileOperations.NewDirectory"
             tools:ignore="InnerclassSeparator" />
-
         <service
-            android:name="com.gallery.album.data.fileOperations.Rename"
+            android:name=".data.fileOperations.Rename"
             tools:ignore="InnerclassSeparator" />
     </application>
+
 </manifest>

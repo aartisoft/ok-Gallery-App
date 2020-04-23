@@ -196,4 +196,13 @@
     <string name="task_description_label">@string/app_name</string>
     <string name="toolbar_title">@string/app_name</string>
     <string name="rate">Rate</string>
+    <string name="title_activity_splashscreen">SplashscreenActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>

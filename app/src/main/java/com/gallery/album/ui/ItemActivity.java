@@ -812,6 +812,7 @@ public class ItemActivity extends ThemeableActivity {
         try {
             context.startActivity(intent);
         } catch (ActivityNotFoundException e) {
+            Log.e("ActivityNotFoundException","ActivityNotFoundException"+e.toString());
             Toast.makeText(context, "No App found to play your video", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }

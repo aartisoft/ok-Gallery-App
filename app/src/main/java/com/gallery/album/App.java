@@ -17,7 +17,7 @@ public class App extends Application {
                 .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
                 .unsubscribeWhenNotificationsAreDisabled(true)
                 .init();
-        MobileAds.initialize(this,getString(R.string.admob_app_id));
+        MobileAds.initialize(this, getString(R.string.admob_app_id));
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {

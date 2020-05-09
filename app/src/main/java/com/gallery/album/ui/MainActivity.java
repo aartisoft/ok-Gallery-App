@@ -17,9 +17,11 @@ import android.provider.MediaStore;
 import androidx.annotation.RequiresApi;
 
 import com.gallery.album.BuildConfig;
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -143,6 +145,7 @@ public class MainActivity extends ThemeableActivity implements NetworkStateRecei
     private NetworkStateReceiver networkStateReceiver;
     AdView mAdView;
 
+    InterstitialAd mInterstitialAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -398,6 +401,47 @@ public class MainActivity extends ThemeableActivity implements NetworkStateRecei
         networkStateReceiver.addListener(this);
         this.registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
 
+        if (Util.isNetworkAvailable(this)) {
+            displayInterstitialAd();
+        }
+
+
+    }
+
+    void displayInterstitialAd() {
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId(getString(R.string.admob_Interstitial_Ad));
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                mInterstitialAd.show();
+                // Code to be executed when an ad finishes loading.
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                // Code to be executed when an ad request fails.
+                Log.e("errorCode", "The interstitial wasn't loaded yet." + errorCode);
+            }
+
+            @Override
+            public void onAdOpened() {
+                // Code to be executed when the ad is displayed.
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                // Code to be executed when the user has left the app.
+            }
+
+            @Override
+            public void onAdClosed() {
+
+                // Code to be executed when when the interstitial ad is closed.
+            }
+        });
     }
 
     @Override
@@ -677,7 +721,7 @@ public class MainActivity extends ThemeableActivity implements NetworkStateRecei
     private void AppShare() {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT,"Ok Gallery is an excellent, feature-rich app for organizing your photos : https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, "Ok Gallery is an excellent, feature-rich app for organizing your photos : https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID);
         sendIntent.setType("text/plain");
         startActivity(sendIntent);
 

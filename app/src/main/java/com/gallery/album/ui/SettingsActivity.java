@@ -38,9 +38,11 @@ import com.gallery.album.preferences.StylePreference;
 import com.gallery.album.preferences.StylePreferenceDialogFragment;
 import com.gallery.album.util.NetworkStateReceiver;
 import com.gallery.album.util.Util;
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 
 public class SettingsActivity extends ThemeableActivity implements NetworkStateReceiver.NetworkStateReceiverListener {
 
@@ -48,6 +50,7 @@ public class SettingsActivity extends ThemeableActivity implements NetworkStateR
     RelativeLayout rlmAdView;
     NetworkStateReceiver networkStateReceiver;
     AdView mAdView;
+    InterstitialAd mInterstitialAd;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -147,6 +150,9 @@ public class SettingsActivity extends ThemeableActivity implements NetworkStateR
         networkStateReceiver = new NetworkStateReceiver();
         networkStateReceiver.addListener(this);
         this.registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
+        if (Util.isNetworkAvailable(this)) {
+            displayInterstitialAd();
+        }
 
     }
 
@@ -165,6 +171,42 @@ public class SettingsActivity extends ThemeableActivity implements NetworkStateR
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    void displayInterstitialAd() {
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId(getString(R.string.admob_Interstitial_Ad));
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                mInterstitialAd.show();
+                // Code to be executed when an ad finishes loading.
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                // Code to be executed when an ad request fails.
+                Log.e("errorCode", "The interstitial wasn't loaded yet." + errorCode);
+            }
+
+            @Override
+            public void onAdOpened() {
+                // Code to be executed when the ad is displayed.
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                // Code to be executed when the user has left the app.
+            }
+
+            @Override
+            public void onAdClosed() {
+
+                // Code to be executed when when the interstitial ad is closed.
+            }
+        });
     }
 
     @Override

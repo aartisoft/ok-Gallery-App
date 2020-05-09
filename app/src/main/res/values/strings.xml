@@ -201,18 +201,16 @@
 
     <!-- Testing id -->
 
-    <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>
-    <string name="admob_banner_id">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="admob_Interstitial_Ad">ca-app-pub-3940256099942544/1033173712</string>
-
+    <!--  <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>
+      <string name="admob_banner_id">ca-app-pub-3940256099942544/6300978111</string>
+      <string name="admob_Interstitial_Ad">ca-app-pub-3940256099942544/1033173712</string>
+  -->
 
     <!--Live id-->
-    <!--
+
     <string name="admob_app_id">ca-app-pub-1305626638030062~6814521601</string>
     <string name="admob_banner_id">ca-app-pub-1305626638030062/9870848211</string>
     <string name="admob_Interstitial_Ad">ca-app-pub-1305626638030062/6255284259</string>
-
--->
 
 
 </resources>
